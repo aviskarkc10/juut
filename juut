@@ -7,7 +7,7 @@ GIT_ROOT_DIRECTORY=$(git rev-parse --show-toplevel)
 COMMIT_MSG_FILE_PATH="/.git/hooks/commit-msg"
 JUUT_FILE_PATH="/.git/hooks/juut.sh"
 
-JUUT=$(curl https://raw.githubusercontent.com/aviskarkc10/juut/master/install.sh)
+JUUT=$(curl https://raw.githubusercontent.com/aviskarkc10/juut/master/juut.sh)
 
 if [ -f "$GIT_ROOT_DIRECTORY$JUUT_FILE_PATH" ]
 then

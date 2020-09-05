@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# set -euo pipefail
+
+IS_GIT_REPO=$(git -C . rev-parse)
+
+GIT_ROOT_DIRECTORY=$(git rev-parse --show-toplevel)
+COMMIT_MSG_FILE_PATH="/.git/hooks/commit-msg"
+JUUT_FILE_PATH="/.git/hooks/juut.sh"
+
+JUUT=$(curl https://raw.githubusercontent.com/aviskarkc10/juut/master/install.sh)
+
+if [ -f "$GIT_ROOT_DIRECTORY$JUUT_FILE_PATH" ]
+then
+    echo "JUUT already exists."
+    exit 1
+fi
+
+echo "$JUUT" > "$GIT_ROOT_DIRECTORY$JUUT_FILE_PATH"
+
+if [ -f "$GIT_ROOT_DIRECTORY$COMMIT_MSG_FILE_PATH" ]
+then
+    COMMIT_MSG=$(cat $GIT_ROOT_DIRECTORY$COMMIT_MSG_FILE_PATH)
+
+    echo -e "$COMMIT_MSG\n"'. "$(dirname "$0")/juut.sh"' > "$GIT_ROOT_DIRECTORY$COMMIT_MSG_FILE_PATH"
+else
+    echo '. "$(dirname "$0")/juut.sh"' > "$GIT_ROOT_DIRECTORY$COMMIT_MSG_FILE_PATH"
+    eval "chmod +x $GIT_ROOT_DIRECTORY$COMMIT_MSG_FILE_PATH"
+fi
